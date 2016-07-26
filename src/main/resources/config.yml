@@ -1,0 +1,51 @@
+kits:
+  thor:
+    gui-item:
+    max-health:
+    extra-attack:
+    extra-defense:
+
+    items:
+      item-one:
+        quantity:
+        material:
+        enchantments:
+         - UNBREAKING
+         - SHARPNESS
+      item-one:
+        quantity:
+        material:
+        enchantments:
+          - UNBREAKING
+          - SHARPNESS
+       item-one:
+       quantity:
+       material:
+       enchantments:
+          - UNBREAKING
+          - SHARPNESS
+  robin-hood:
+    gui-item:
+    max-health:
+    extra-attack:
+    extra-defense:
+
+    items:
+      item-one:
+        quantity:
+        material:
+        enchantments:
+         - UNBREAKING
+         - SHARPNESS
+      item-one:
+        quantity:
+        material:
+        enchantments:
+          - UNBREAKING
+          - SHARPNESS
+       item-one:
+       quantity:
+       material:
+       enchantments:
+          - UNBREAKING
+          - SHARPNESS
