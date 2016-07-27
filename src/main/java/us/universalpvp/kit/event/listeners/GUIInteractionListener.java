@@ -7,7 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import us.universalpvp.kit.KitMain;
 import us.universalpvp.kit.api.KitAPI;
-import us.universalpvp.kit.event.events.KitRecieveEvent;
+import us.universalpvp.kit.event.events.KitReceiveEvent;
 
 /**
  * Created by avigh on 7/24/2016.
@@ -36,8 +36,8 @@ public class GUIInteractionListener implements Listener {
                     p.getInventory().addItem(k.getItems());
                     p.getInventory().setArmorContents(k.getArmor());
                 }
-                
-                Bukkit.getPluginManager().callEvent(new KitRecieveEvent(p, k));
+
+                Bukkit.getPluginManager().callEvent(new KitReceiveEvent(p, k));
                 p.sendMessage(plugin.getConfig().getString("Kit-received"));
             });
         }
