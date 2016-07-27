@@ -9,17 +9,16 @@ import java.util.List;
  */
 public class Kit {
     private final String name, permission;
-    private final int attack, defence;
     private final double health;
     private final ItemStack guiItem;
     private final List<String> description;
-    private ItemStack[] items;
+    private final ItemStack[] items;
+    private final ItemStack[] armor;
 
-    public Kit(String name, int attack, int defence, double health,
-               ItemStack guiItem, ItemStack[] items, List<String> description, String permission) {
+    public Kit(String name, double health,
+               ItemStack guiItem, ItemStack[] items, ItemStack[] armor, List<String> description, String permission) {
         this.name = name;
-        this.attack = attack;
-        this.defence = defence;
+        this.armor = armor;
         this.health = health;
         this.guiItem = guiItem;
         this.items = items;
@@ -29,14 +28,6 @@ public class Kit {
 
     public String getName() {
         return name;
-    }
-
-    public int getExtraAttack() {
-        return attack;
-    }
-
-    public int getExtraDefence() {
-        return defence;
     }
 
     public double getHealth() {
@@ -59,4 +50,8 @@ public class Kit {
         return permission;
     }
 
+    public ItemStack[] getArmor() {
+        return armor;
+    }
 }
+
