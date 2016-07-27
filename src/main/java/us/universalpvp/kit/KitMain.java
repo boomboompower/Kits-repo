@@ -2,11 +2,10 @@ package us.universalpvp.kit;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.java.JavaPlugin;
 import us.universalpvp.kit.api.KitAPI;
 import us.universalpvp.kit.commands.KitCommands;
 import us.universalpvp.kit.event.listeners.GUIInteractionListener;
-
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 
@@ -17,6 +16,7 @@ public class KitMain extends JavaPlugin {
 
     private static FileConfiguration kits;
 
+
     @Override
     public void onEnable() {
         createKitFile();
@@ -26,6 +26,8 @@ public class KitMain extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new GUIInteractionListener(this), this);
         getCommand("kits").setExecutor(new KitCommands(this));
+
+        saveDefaultConfig();
     }
 
     public FileConfiguration getKitsConfig() {
@@ -44,4 +46,9 @@ public class KitMain extends JavaPlugin {
 
         kits = new YamlConfiguration();
     }
+
+    public void saveKitsConfig() {
+        saveResource("kits.yml", false);
+    }
+
 }
