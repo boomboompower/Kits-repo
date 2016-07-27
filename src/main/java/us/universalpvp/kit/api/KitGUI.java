@@ -4,7 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.meta.ItemMeta;
-import us.universalpvp.kit.KitMain;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
 
@@ -13,15 +13,20 @@ import java.util.List;
  */
 public class KitGUI {
 
-    public void openGui(Player player, KitMain plugin) {
+    /**
+     *
+     * @param player The player to open the GUI to
+     * @param plugin The main class.
+     */
+    public void openGui(Player player, JavaPlugin plugin) {
         List<Kit> kits = KitAPI.getAPI().getRegisteredKits();
 
-        Inventory gui = Bukkit.createInventory(null, plugin.getKitsConfig().getInt("gui-size"),
-                plugin.getKitsConfig().getString("gui-name"));
+        Inventory gui = Bukkit.createInventory(null, 54,
+                plugin.getConfig().getConfigurationSection("Gui").getString("name"));
 
         for (Kit k : kits) {
             ItemMeta meta = k.getGuiItem().getItemMeta();
-            meta.setDisplayName(k.getName());
+            meta.setDisplayName(KitAPI.getAPI().color("The " + k.getName() + " kit!"));
             meta.setLore(k.getDescription());
             k.getGuiItem().setItemMeta(meta);
 
@@ -32,3 +37,4 @@ public class KitGUI {
     }
 
 }
+
