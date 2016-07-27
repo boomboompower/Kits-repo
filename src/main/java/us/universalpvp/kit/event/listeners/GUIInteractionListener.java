@@ -5,11 +5,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import us.universalpvp.kit.KitMain;
+import us.universalpvp.kit.api.KitAPI;
 
 /**
  * Created by avigh on 7/24/2016.
  */
 public class GUIInteractionListener implements Listener {
+
     private final KitMain plugin;
 
     public GUIInteractionListener(KitMain plugin) {
@@ -20,13 +22,24 @@ public class GUIInteractionListener implements Listener {
     public void onGuiInteract(final InventoryClickEvent e) {
         Player p = (Player) e.getWhoClicked();
 
-        if (e.getClickedInventory().getName().equalsIgnoreCase(plugin.getKitsConfig().getString("gui-name"))) {
+        if (e.getClickedInventory().getName().equalsIgnoreCase(plugin.getConfig().
+                getConfigurationSection("Gui").getString("name"))) {
+
+            KitAPI.getAPI().getRegisteredKits().stream().filter(k -> k.getGuiItem().isSimilar(e.getCurrentItem())).forEach(k -> {
+                if (k.isPermissible() && p.hasPermission("kits." + k.getName().toLowerCase())) {
+                    p.getInventory().addItem(k.getItems());
+                    p.getInventory().setArmorContents(k.getArmor());
+                } else {
+                    p.getInventory().addItem(k.getItems());
+                    p.getInventory().setArmorContents(k.getArmor());
+                }
+
+                p.sendMessage(plugin.getConfig().getString("Kit-received"));
+            });
 
         }
 
     }
-
-
 
 
 }
