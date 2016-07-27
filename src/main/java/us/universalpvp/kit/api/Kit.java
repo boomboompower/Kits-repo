@@ -8,15 +8,25 @@ import java.util.List;
  * Created by avigh on 7/23/2016.
  */
 public class Kit {
-    private final String name, permission;
+    private final String name;
+    private final boolean permission;
     private final double health;
     private final ItemStack guiItem;
     private final List<String> description;
     private final ItemStack[] items;
     private final ItemStack[] armor;
 
+    /**
+     * @param name        Name of the kit.
+     * @param health      The max health.
+     * @param guiItem     The item which would be in a gui representing the kit.
+     * @param items       The items in the kit
+     * @param armor       The armor in the kit
+     * @param description The description of the kit.
+     * @param permission  States if there will be a permission to use the kit.
+     */
     public Kit(String name, double health,
-               ItemStack guiItem, ItemStack[] items, ItemStack[] armor, List<String> description, String permission) {
+               ItemStack guiItem, ItemStack[] items, ItemStack[] armor, List<String> description, boolean permission) {
         this.name = name;
         this.armor = armor;
         this.health = health;
@@ -46,7 +56,7 @@ public class Kit {
         return description;
     }
 
-    public String getPermission() {
+    public boolean isPermissible() {
         return permission;
     }
 
