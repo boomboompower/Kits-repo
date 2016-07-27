@@ -47,22 +47,20 @@ public final class KitAPI {
     public void loadKits() {
         KitMain pl = (KitMain) plugin;
 
-        ConfigurationSection cs = pl.getKitsConfig().getConfigurationSection("kits");
+        ConfigurationSection cs = pl.getKitsConfig().getConfigurationSection("Kits");
 
         for (String cKey : cs.getKeys(false)) {
             String name = cs.getString(cKey + "kit-name", cKey),
                     permission = cs.getString(cKey + "permission", "");
 
-            int attack = cs.getInt(cKey + ".extra-attack", 0),
-                    defence = cs.getInt(cKey + ".extra-defence", 0);
-
             double health = cs.getDouble(cKey + ".max-health", 20.0);
             List<String> description = cs.getStringList(cKey + ".description");
 
             ItemStack guiItem = new ItemStack(Material.getMaterial(cs.getString(cKey + ".gui-item").toUpperCase()));
-            List<ItemStack> items = new ArrayList<>();
+            List<ItemStack> items = new ArrayList<>(),
+                    armor = new ArrayList<>();
 
-            ConfigurationSection ics = cs.getConfigurationSection("items");
+            ConfigurationSection ics = cs.getConfigurationSection("Items");
             for (String iKey : ics.getKeys(false)) {
                 int quantity = ics.getInt(iKey + ".quantity");
                 Material material = Material.getMaterial(ics.getString(iKey + ".material"));
@@ -71,12 +69,30 @@ public final class KitAPI {
                 ics.getStringList(iKey + ".enchantments")
                         .forEach(s -> item.addEnchantment(Enchantment.getByName(s.split(":")[0]),
                                 Integer.parseInt(s.split(":")[1])));
+                item.getItemMeta().setDisplayName(iKey + ".name");
 
                 items.add(item);
             }
 
-            Kit kit = new Kit(name, attack, defence, health, guiItem,
-                    items.toArray(new ItemStack[items.size()]), description, permission);
+            ConfigurationSection acs = cs.getConfigurationSection("armor");
+            ConfigurationSection[] hcs = {acs.getConfigurationSection("Helmet"), acs.getConfigurationSection("Chest-plate"),
+                    acs.getConfigurationSection("Leggings"), acs.getConfigurationSection("Boots")};
+
+            for (ConfigurationSection armorCs : hcs) {
+                Material material = Material.getMaterial(armorCs.getString("material"));
+
+                ItemStack armorItem = new ItemStack(material);
+                ics.getStringList(armorCs + ".enchantments")
+                        .forEach(s -> armorItem.addEnchantment(Enchantment.getByName(s.split(":")[0]),
+                                Integer.parseInt(s.split(":")[1])));
+                armorItem.getItemMeta().setDisplayName("name");
+
+                armor.add(armorItem);
+            }
+
+
+            Kit kit = new Kit(name, health, guiItem, items.toArray(new ItemStack[items.size()]),
+                    armor.toArray(new ItemStack[armor.size()]), description, permission);
             registerKit(kit);
         }
     }
