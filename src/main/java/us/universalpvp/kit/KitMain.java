@@ -1,5 +1,6 @@
 package us.universalpvp.kit;
 
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -16,7 +17,6 @@ public class KitMain extends JavaPlugin {
 
     private static FileConfiguration kits;
 
-
     @Override
     public void onEnable() {
         createKitFile();
@@ -26,6 +26,12 @@ public class KitMain extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new GUIInteractionListener(this), this);
         getCommand("kits").setExecutor(new KitCommands(this));
+
+        getConfig().addDefault("No-Permission", ChatColor.RED + "You do not have permission to perform this command!");
+        getConfig().addDefault("Kit-Received", "");
+        getConfig().addDefault("Enable-Title", false);
+        getConfig().addDefault("Title", "");
+        getConfig().addDefault("Subtitle", "");
 
         saveDefaultConfig();
     }
@@ -38,13 +44,13 @@ public class KitMain extends JavaPlugin {
     private void createKitFile() {
 
         File kitsFile = new File(getDataFolder(), "kits.yml");
+        kits = YamlConfiguration.loadConfiguration(kitsFile);
 
         if (!kitsFile.exists()) {
             kitsFile.getParentFile().mkdirs();
             saveResource("kits.yml", false);
         }
 
-        kits = new YamlConfiguration();
     }
 
     public void saveKitsConfig() {
