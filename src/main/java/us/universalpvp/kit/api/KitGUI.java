@@ -1,6 +1,7 @@
 package us.universalpvp.kit.api;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -14,7 +15,6 @@ import java.util.List;
 public class KitGUI {
 
     /**
-     *
      * @param player The player to open the GUI to
      * @param plugin The main class.
      */
@@ -22,7 +22,7 @@ public class KitGUI {
         List<Kit> kits = KitAPI.getAPI().getRegisteredKits();
 
         Inventory gui = Bukkit.createInventory(null, 54,
-                plugin.getConfig().getConfigurationSection("Gui").getString("name"));
+                ChatColor.translateAlternateColorCodes('&', "&l&8Kit Selector"));
 
         for (Kit k : kits) {
             ItemMeta meta = k.getGuiItem().getItemMeta();
