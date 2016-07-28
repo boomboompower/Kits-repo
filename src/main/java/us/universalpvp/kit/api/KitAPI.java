@@ -22,7 +22,7 @@ public final class KitAPI {
 
     private static KitAPI api;
     private static KitGUI kitGUI;
-    
+
     public static KitAPI getAPI() {
         return api;
     }
@@ -40,7 +40,7 @@ public final class KitAPI {
     }
 
     private final JavaPlugin plugin;
-    
+
     private List<Kit> registeredKits = new ArrayList<>();
 
     private KitAPI(JavaPlugin plugin) {
@@ -91,16 +91,16 @@ public final class KitAPI {
                         NBTAttributes nbtAttributes = new NBTAttributes(
                                 Attribute.valueOf(attributes.getString(a + ".attribute", "")),
                                 Slot.valueOf(attributes.getString(a + ".slot", "")),
-                                attributes.getDouble(a + ".slot", 0));
+                                attributes.getDouble(a + ".amount", 0));
 
                         nbtAttributes.apply(item);
                     }
-                    
+
                     items.add(item);
                 }
             }
 
-            ConfigurationSection acs = cs.getConfigurationSection("Armor");
+            ConfigurationSection acs = cs.getConfigurationSection("armor");
             ConfigurationSection[] hcs = {acs.getConfigurationSection("helmet"),
                     acs.getConfigurationSection("chest-plate"),
                     acs.getConfigurationSection("leggings"),
@@ -132,7 +132,7 @@ public final class KitAPI {
                         NBTAttributes nbtAttributes = new NBTAttributes(
                                 Attribute.valueOf(attributes.getString(a + ".attribute", "")),
                                 Slot.valueOf(attributes.getString(a + ".slot", "")),
-                                attributes.getDouble(a + ".slot", 0));
+                                attributes.getDouble(a + ".amount", 0));
 
                         nbtAttributes.apply(armorItem);
                     }
@@ -155,7 +155,20 @@ public final class KitAPI {
         Arrays.asList(kits).forEach(registeredKits::add);
     }
 
-    public String color(String strings) {
-        return ChatColor.translateAlternateColorCodes('&', strings);
+    public void unregisterKit(Kit... kits) {
+        Arrays.asList(kits).forEach(registeredKits::remove);
+    }
+
+    public String color(String string) {
+        return ChatColor.translateAlternateColorCodes('&', string);
+    }
+
+    public Kit getKitByName(String name) {
+        for (Kit kit : registeredKits) {
+            if (kit.getName().equalsIgnoreCase(name)) {
+                return kit;
+            }
+        }
+        return null;
     }
 }
