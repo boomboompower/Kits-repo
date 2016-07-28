@@ -24,10 +24,10 @@ public class GUIInteractionListener implements Listener {
     public void onGuiInteract(final InventoryClickEvent e) {
         Player p = (Player) e.getWhoClicked();
 
-        if (e.getClickedInventory().getName().equalsIgnoreCase(plugin.getConfig().
-                getConfigurationSection("Gui").getString("name"))) {
+        if (e.getClickedInventory().getName().equalsIgnoreCase(plugin.getConfig().getString("Gui-Name"))) {
 
-            KitAPI.getAPI().getRegisteredKits().stream().filter(k -> k.getGuiItem().isSimilar(e.getCurrentItem())).forEach(k -> {
+            KitAPI.getAPI().getRegisteredKits().stream().filter(k -> k.getGuiItem().
+                    isSimilar(e.getCurrentItem())).forEach(k -> {
                 if (k.isPermissible() && p.hasPermission("kit." + k.getName().toLowerCase())) {
                     p.getInventory().addItem(k.getItems());
                     p.getInventory().setArmorContents(k.getArmor());
@@ -38,7 +38,12 @@ public class GUIInteractionListener implements Listener {
                 }
 
                 Bukkit.getPluginManager().callEvent(new KitReceiveEvent(p, k));
-                p.sendMessage(plugin.getConfig().getString("Kit-received"));
+
+                if (plugin.getConfig().getBoolean("Enable-Title"))
+                    p.sendTitle(plugin.getConfig().getString("Title").replaceAll("%kit", k.getName()),
+                            plugin.getConfig().getString("Subtitle").replaceAll("%kit", k.getName()));
+
+                p.sendMessage(plugin.getConfig().getString("Kit-Received").replaceAll("%kit", k.getName()));
             });
         }
     }
