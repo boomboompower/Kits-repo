@@ -6,4 +6,4 @@ description: A kit plugin.
 
 commands:
   kits:
-    description:
+    description: A kits plugin.
