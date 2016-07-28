@@ -7,7 +7,9 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import us.universalpvp.kit.KitMain;
-import us.universalpvp.kit.utils.ItemAttributes;
+import us.universalpvp.kit.utils.attributes.Attribute;
+import us.universalpvp.kit.utils.attributes.NBTAttributes;
+import us.universalpvp.kit.utils.attributes.Slot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,8 +22,7 @@ public final class KitAPI {
 
     private static KitAPI api;
     private static KitGUI kitGUI;
-
-
+    
     public static KitAPI getAPI() {
         return api;
     }
@@ -39,8 +40,7 @@ public final class KitAPI {
     }
 
     private final JavaPlugin plugin;
-
-
+    
     private List<Kit> registeredKits = new ArrayList<>();
 
     private KitAPI(JavaPlugin plugin) {
@@ -63,7 +63,7 @@ public final class KitAPI {
             List<ItemStack> items = new ArrayList<>(),
                     armor = new ArrayList<>();
 
-            ConfigurationSection ics = cs.getConfigurationSection("Items");
+            ConfigurationSection ics = cs.getConfigurationSection("items");
             for (String iKey : ics.getKeys(false)) {
 
                 int quantity = ics.getInt(iKey + ".quantity");
@@ -75,18 +75,27 @@ public final class KitAPI {
                         .forEach(s -> item.addUnsafeEnchantment(Enchantment.getByName(s.split(":")[0]),
                                 Integer.parseInt(s.split(":")[1])));
 
-                ConfigurationSection attributes = ics.getConfigurationSection("Attributes");
+                ConfigurationSection attributes = ics.getConfigurationSection(iKey + ".attributes");
 
                 if (attributes != null) {
-                    double attackDamage = attributes.getDouble("attack-damage"),
-                            movementSpeed = attributes.getDouble("speed"),
-                            armorToughness = attributes.getDouble("armor");
+                    String kbRes = "knockback-resistance",
+                            moveSpeed = "speed",
+                            attDam = "damage",
+                            armorA = "armor",
+                            armorTough = "armor-toughness",
+                            attSpeed = "attack-speed";
 
+                    String[] atts = {kbRes, moveSpeed, attDam, armorA, armorTough, attSpeed};
 
-                    ItemAttributes.applyAttribute(item, "generic.attackDamage", attackDamage);
-                    ItemAttributes.applyAttribute(item, "generic.movementSpeed", movementSpeed);
-                    ItemAttributes.applyAttribute(item, "generic.armor", armorToughness);
+                    for (String a : atts) {
+                        NBTAttributes nbtAttributes = new NBTAttributes(
+                                Attribute.valueOf(attributes.getString(a + ".attribute", "")),
+                                Slot.valueOf(attributes.getString(a + ".slot", "")),
+                                attributes.getDouble(a + ".slot", 0));
 
+                        nbtAttributes.apply(item);
+                    }
+                    
                     items.add(item);
                 }
             }
@@ -107,18 +116,28 @@ public final class KitAPI {
                         .forEach(s -> armorItem.addEnchantment(Enchantment.getByName(s.split(":")[0]),
                                 Integer.parseInt(s.split(":")[1])));
 
-                ConfigurationSection attributes = ics.getConfigurationSection("Attributes");
+                ConfigurationSection attributes = armorCs.getConfigurationSection("attributes");
 
                 if (attributes != null) {
-                    double attackDamage = attributes.getDouble("attack-damage"),
-                            movementSpeed = attributes.getDouble("speed"),
-                            armorToughness = attributes.getDouble("armor");
+                    String kbRes = "knockback-resistance",
+                            moveSpeed = "speed",
+                            attDam = "damage",
+                            armorA = "armor",
+                            armorTough = "armor-toughness",
+                            attSpeed = "attack-speed";
 
-                    ItemAttributes.applyAttribute(armorItem, "generic.attackDamage", attackDamage);
-                    ItemAttributes.applyAttribute(armorItem, "generic.movementSpeed", movementSpeed);
-                    ItemAttributes.applyAttribute(armorItem, "generic.armor", armorToughness);
+                    String[] atts = {kbRes, moveSpeed, attDam, armorA, armorTough, attSpeed};
 
-                    armor.add(armorItem);
+                    for (String a : atts) {
+                        NBTAttributes nbtAttributes = new NBTAttributes(
+                                Attribute.valueOf(attributes.getString(a + ".attribute", "")),
+                                Slot.valueOf(attributes.getString(a + ".slot", "")),
+                                attributes.getDouble(a + ".slot", 0));
+
+                        nbtAttributes.apply(armorItem);
+                    }
+
+                    items.add(armorItem);
                 }
             }
 
