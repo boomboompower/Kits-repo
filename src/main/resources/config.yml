@@ -1,51 +1,53 @@
-kits:
-  thor:
-    gui-item:
-    max-health:
-    extra-attack:
-    extra-defense:
 
-    items:
-      item-one:
-        quantity:
-        material:
-        enchantments:
-         - UNBREAKING
-         - SHARPNESS
-      item-one:
-        quantity:
-        material:
-        enchantments:
-          - UNBREAKING
-          - SHARPNESS
-       item-one:
-       quantity:
-       material:
-       enchantments:
-          - UNBREAKING
-          - SHARPNESS
-  robin-hood:
-    gui-item:
-    max-health:
-    extra-attack:
-    extra-defense:
+#################################################################################
+#########                   Kits plugin by Avighnash                    #########
+#################################################################################
 
-    items:
-      item-one:
-        quantity:
-        material:
-        enchantments:
-         - UNBREAKING
-         - SHARPNESS
-      item-one:
-        quantity:
-        material:
-        enchantments:
-          - UNBREAKING
-          - SHARPNESS
-       item-one:
-       quantity:
-       material:
-       enchantments:
-          - UNBREAKING
-          - SHARPNESS
+# This is the Yaml configuration for kits
+# If you need any help configuring or just don't want to do it, PM me in spigot
+# because it can get complicated
+
+#################################################################################
+#########                            Notes                              #########
+#################################################################################
+
+# Use these are references for potion names, material names, and enchantments:
+
+# https://hub.spigotmc.org/javadocs/spigot/org/bukkit/enchantments/Enchantment.html
+# https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
+
+# I CURRENTLY DON'T SUPPORT POTIONS. It may come in a future update. If you really
+# want potions in the kits, contact me and I will see what I can do.
+
+# If you want a custom feature added to the plugin but only available for you, I will
+# do that for free, however, if it is massive, I will need you to pay. (When I mean pay
+# I mean donate to spigot because I don't have paypal. You will have to show proof etc).
+# If you need anything else, PM me on spigot.
+
+# -------------------------------------------------------------------------------#
+
+# This is for if a player does not have a permission to a command.
+No-Permission:
+
+# This is the message sent to the player when they receive a kit.
+Kit-Received:
+
+# This is a boolean controlling whether you want to send a title when the player receives
+# a kit.
+Enable-Title:
+
+# The title if titles are enabled.
+Title:
+
+# The subtitle if titles are enabled.
+Subtitle:
+
+Help:
+  - "Example"
+  - "Help"
+  - "Message"
+
+
+
+
+
