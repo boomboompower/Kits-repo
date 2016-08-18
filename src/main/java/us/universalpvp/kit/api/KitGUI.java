@@ -16,9 +16,8 @@ public class KitGUI {
 
     /**
      * @param player The player to open the GUI to
-     * @param plugin The main class.
      */
-    public void openGui(Player player, JavaPlugin plugin) {
+    public void openGui(Player player) {
         List<Kit> kits = KitAPI.getAPI().getRegisteredKits();
 
         Inventory gui = Bukkit.createInventory(null, 54,
