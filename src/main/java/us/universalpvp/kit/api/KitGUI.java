@@ -20,8 +20,7 @@ public class KitGUI {
     public void openGui(Player player) {
         List<Kit> kits = KitAPI.getAPI().getRegisteredKits();
 
-        Inventory gui = Bukkit.createInventory(null, 54,
-                ChatColor.translateAlternateColorCodes('&', "&8&lKit Selector"));
+        Inventory gui = Bukkit.createInventory(null, 54, KitAPI.getAPI().color("&8&lKit Selector"));
 
         for (Kit k : kits) {
             ItemMeta meta = k.getGuiItem().getItemMeta();
