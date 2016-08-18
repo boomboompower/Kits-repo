@@ -34,6 +34,5 @@ public class KitGUI {
 
         player.openInventory(gui);
     }
-
 }
 
